@@ -396,6 +396,7 @@
             txtScore1.Location = new Point(3, 86);
             txtScore1.Multiline = true;
             txtScore1.Name = "txtScore1";
+            txtScore1.ReadOnly = true;
             txtScore1.Size = new Size(165, 89);
             txtScore1.TabIndex = 1;
             // 
@@ -420,6 +421,7 @@
             txtScore2.Location = new Point(3, 92);
             txtScore2.Multiline = true;
             txtScore2.Name = "txtScore2";
+            txtScore2.ReadOnly = true;
             txtScore2.Size = new Size(165, 89);
             txtScore2.TabIndex = 2;
             // 

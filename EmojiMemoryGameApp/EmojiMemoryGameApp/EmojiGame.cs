@@ -19,11 +19,12 @@ namespace EmojiMemoryGameApp
         int numtimesclicked =0;
         int nonvisible = 0;
         string winner;
+
         public EmojiGame()
         {
             InitializeComponent();
             btnStart.Click += BtnStart_Click;
-            lstemojis = new() {"😊","😂","😍","😒","😘","😁","😢","😜","😎","😉", "😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉" };
+            
             lstbuttons = new() { btn1, btn2, btn3 , btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20 };
             lstbuttons.ForEach(b => b.Click += B_Click);
             txtMsg.Text = "Press Start";
@@ -31,7 +32,7 @@ namespace EmojiMemoryGameApp
         }
 
         //😊😂😍😒😘😁😢😜😎😉
-
+ 
         private void CheckForWinner()
         {
             int score1;
@@ -45,18 +46,22 @@ namespace EmojiMemoryGameApp
             else if (score2 > score1)
             {
                 winner = "The Winner is Player Two";
+
             }
             else if (score1 == score2)
             {
                 winner = "It's a Tie";
+             
             }
             if(nonvisible == 20)
             {
                 MessageBox.Show(winner);
+                EndGame();
             }
             else if (txtScore1.Text == "8" || txtScore2.Text == "8")
             {
                 MessageBox.Show(winner);
+                EndGame();
             }
         }
         private void SwitchTurn()
@@ -157,39 +162,43 @@ namespace EmojiMemoryGameApp
             }
         }
 
-        private string GetButtonText()
-        {
-            string x = btnStart.Text;
-            return x;
-        }
         private void BtnStart_Click(object? sender, EventArgs e)
         {
             if (btnStart.Text == "START")
             {
-                PlayerUp();
-                lstbuttons.ForEach(l => l.Text = "");
-                gamestarted = true;
-                btnStart.Text = "End Game";
-                GetButtonText();
+                StartGame();
             }
             else if(btnStart.Text == "End Game")
             {
-                btnStart.Text = "START";
-                GetButtonText();
-                gamestarted = false;
-                txtScore1.Text = "";
-                txtScore2.Text = "";
-                txtMsg.Text = "Press Start";
-                foreach(Button b in lstbuttons)
-                {
-                    b.Visible = true;
-                    b.Text = "";
-                }
-
+                EndGame();
             }
   
         }
+        private void StartGame()
+        {
+            lstemojis = new() { "😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉", "😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉" };
+            PlayerUp();
+            lstbuttons.ForEach(l => l.Text = "");
+            gamestarted = true;
+            btnStart.Text = "End Game";
 
+        }
+        private void EndGame()
+        {
+            btnStart.Text = "START";
+            gamestarted = false;
+            txtScore1.Text = "";
+            txtScore2.Text = "";
+            txtMsg.Text = "Press Start";
+            numtimesclicked = 0;
+            nonvisible = 0;
+
+            foreach (Button b in lstbuttons)
+            {
+                b.Visible = true;
+                b.Text = "";
+            }
+        }
         private void B_Click(object? sender, EventArgs e)
         {
             if (gamestarted == true)
