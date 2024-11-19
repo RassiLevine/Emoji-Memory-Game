@@ -5,7 +5,6 @@ namespace EmojiMemoryGameApp
 {
     public partial class EmojiGame : Form
     {
-
         bool gamestarted = false;
         List<string> lstemojis;
         List<Button> lstbuttons;
