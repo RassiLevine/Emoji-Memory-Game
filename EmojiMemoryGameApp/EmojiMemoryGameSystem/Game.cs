@@ -6,29 +6,28 @@ namespace EmojiMemoryGameSystem
     public class Game
     {
         public List<EmojiCard> lstemojicards { get; private set; }
-        private List<string> lstemojis = new() { "😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉", "😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉" };
-        public EmojiCard cardone;
-        public EmojiCard cardtwo;
+        private List<string> lstemojis = new() { "😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉" };
+        public EmojiCard emojicardone;
+        public EmojiCard emojicardtwo;
         public bool gamestarted = false;
         public bool nomatch = true;
-        public enum GameStatesEnum { Playing, GameOver, Winner, NotStarted}; //maybe dont need
+        public enum GameStatusEnum { Playing, GameOver, Winner, NotStarted}; //maybe dont need
         public enum PlayerUpEnum { playerone, playertwo };
         public enum WinnerEnum { PlayerOne, PlayerTwo, Tie};
         public int numtimesclicked { get; set; } = 0;
         public int nonvisible { get; set; } = 0;
-        private string _winner;
-        public string winner { get => _winner; set { _winner = _winnerenum.ToString(); } }
         public int scoreone { get; private set; } = 0;
         public int scoretwo { get; private set; } = 0;
         private PlayerUpEnum _playerup = PlayerUpEnum.playerone;
-        private GameStatesEnum gamestatus = GameStatesEnum.NotStarted;
-        private WinnerEnum _winnerenum = WinnerEnum.Tie;
+        private GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
+        public WinnerEnum _winnerenum = WinnerEnum.Tie;
 
-
-        //public Game()
+        public GameStatusEnum GameStatus { get => _gamestatus; set { _gamestatus = value; } }
+        public PlayerUpEnum PlayerUp { get => _playerup; set { _playerup = value; } }
         public void StartGame()
         {
-            gamestatus = GameStatesEnum.Playing;
+            
+            _gamestatus = GameStatusEnum.Playing;
             _playerup = PlayerUpEnum.playerone;
             numtimesclicked  =0;
             nonvisible = 0; //not sure if i need
@@ -36,18 +35,19 @@ namespace EmojiMemoryGameSystem
             InitializeGameCards();
         }
 
-        private void InitializeGameCards()
+        public void InitializeGameCards()
         {
+            lstemojicards.Clear();
             List<string> lstshuffledemojis = new List<string>(lstemojis);
             lstemojis.AddRange(lstshuffledemojis);
             Random rnd = new();
             lstemojis = lstemojis.OrderBy(lst => rnd.Next().ToString()).ToList();
-            foreach(var emoji in lstshuffledemojis)
+            foreach(var emoji in lstemojis)
             {
                 lstemojicards.Add(new EmojiCard(emoji));
             }
         }
-
+        
         public void CheckForWinner()
         {
             if (scoreone > scoretwo == true)
@@ -66,18 +66,18 @@ namespace EmojiMemoryGameSystem
             }
             if (nonvisible == 20)
             {
-                gamestatus = GameStatesEnum.GameOver; //maybo dont need
+                _gamestatus = GameStatusEnum.GameOver; //maybo dont need
                 
             }
             else if (scoreone == 8 || scoretwo == 8)
             {
                 //MessageBox.Show(winner);
-                gamestatus = GameStatesEnum.GameOver; //maybo dont need
+                _gamestatus = GameStatusEnum.GameOver; //maybo dont need
                 
             }
         }
 
-        private void SwitchTurn()
+        public void SwitchTurn()
         {
             if (_playerup == PlayerUpEnum.playerone)
             {
@@ -89,8 +89,8 @@ namespace EmojiMemoryGameSystem
             }
 
             numtimesclicked = 0;
-            //cardone = null;  need to add in somehow
-            //cardtwo = null;   need to add in somehow
+            emojicardone = null;  
+            emojicardtwo = null;  
         }
 
         //private void ChooseCard(EmojiCard emoji)
@@ -132,37 +132,29 @@ namespace EmojiMemoryGameSystem
         //    }
         //}
 
-        private void CheckForMatch()
+        public void CheckForMatch(EmojiCard cardone, EmojiCard cardtwo)
         {
-            if (cardone == cardtwo)
-            {
-//                MessageBox.Show("YOU GOT A MATCH!");
-                //cardone.Visible = false;
-                //cardtwo.Visible = false;
+            emojicardone = cardone;
+            emojicardtwo = cardtwo;
+            if (emojicardone.emoji.ToString() == emojicardtwo.emoji.ToString())
+            {             
                 nonvisible = nonvisible + 2;
 
                 if (_playerup == PlayerUpEnum.playerone)
                 {
-                    //int number = 0;
-                    //bool prs = int.TryParse(txtScore1.Text, out number);
-                    //txtScore1.Text = (number + 1).ToString();
                     _winnerenum = WinnerEnum.PlayerOne;
                     scoreone = scoreone + 1;
                 }
                 else if (_playerup == PlayerUpEnum.playertwo)
                 {
-                    //int number2 = 0;
-                    //bool prs2 = int.TryParse(txtScore2.Text, out number2);
-                    //txtScore2.Text = (number2 + 1).ToString();
                     _winnerenum = WinnerEnum.PlayerTwo;
                     scoretwo = scoretwo + 1;
                 }
             }
-            else if (cardone != cardtwo)
+            else if (emojicardone.emoji.ToString() != emojicardtwo.emoji.ToString())
             {
-                //MessageBox.Show("NO MATCH!");
-                cardone = null;
-                cardtwo = null;
+                emojicardone = null;
+                emojicardtwo = null;
                 nomatch = true;
             }
         }

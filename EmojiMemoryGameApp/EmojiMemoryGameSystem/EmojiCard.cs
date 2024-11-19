@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace EmojiMemoryGameSystem
 {
-    internal class Emoji
+    public class EmojiCard
     {
+
+        public bool IsFlipped = false;
+        public string emoji { get; set; }
+        
+        public EmojiCard(string emojistring)
+        {
+            emoji = emojistring;
+        }
     }
 }
