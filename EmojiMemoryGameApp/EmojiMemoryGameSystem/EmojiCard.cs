@@ -8,8 +8,6 @@ namespace EmojiMemoryGameSystem
 {
     public class EmojiCard
     {
-
-        public bool IsFlipped = false;
         public string emoji { get; set; }
         
         public EmojiCard(string emojistring)

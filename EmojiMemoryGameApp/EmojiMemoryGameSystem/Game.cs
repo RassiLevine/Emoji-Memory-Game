@@ -1,41 +1,72 @@
-﻿using System.Reflection;
-using static System.Formats.Asn1.AsnWriter;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace EmojiMemoryGameSystem
 {
-    public class Game
+    public class Game: INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private PlayerUpEnum _playerup = PlayerUpEnum.playerone;
+        private GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
+        public WinnerEnum _winnerenum = WinnerEnum.Tie;
+        private bool _nomatch;
+        private int _scoreone = 0;
+        private int _scoretwo = 0;
+
         public List<EmojiCard> lstemojicards { get; private set; }
-        private List<string> lstemojis = new() { "😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉" };
+        private List<string> lstemojis;
         public EmojiCard emojicardone;
         public EmojiCard emojicardtwo;
-        public bool gamestarted = false;
-        public bool nomatch = true;
-        public enum GameStatusEnum { Playing, GameOver, Winner, NotStarted}; //maybe dont need
+
+
+        public enum GameStatusEnum { Playing, GameOver, Winner, NotStarted}; 
         public enum PlayerUpEnum { playerone, playertwo };
         public enum WinnerEnum { PlayerOne, PlayerTwo, Tie};
         public int numtimesclicked { get; set; } = 0;
         public int nonvisible { get; set; } = 0;
-        public int scoreone { get; private set; } = 0;
-        public int scoretwo { get; private set; } = 0;
-        private PlayerUpEnum _playerup = PlayerUpEnum.playerone;
-        private GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
-        public WinnerEnum _winnerenum = WinnerEnum.Tie;
 
+        public bool NoMatch
+        {
+            get => _nomatch;
+            set
+            {
+                _nomatch = value;
+                this.InvokePropertyChanged("NoMatch");
+            }
+        }
+        public int scoreone {get =>_scoreone; private set 
+            {
+                _scoreone = value;
+                Debug.WriteLine($"scoreONE change to {value}");
+                this.InvokePropertyChanged("scoreone"); }
+            }
+        public int scoretwo { get=>  _scoretwo; private set 
+            {
+                _scoretwo = value;
+                Debug.WriteLine($"scoreTWO change to {value}");
+                this.InvokePropertyChanged("scoretwo"); } 
+            }
         public GameStatusEnum GameStatus { get => _gamestatus; set { _gamestatus = value; } }
         public PlayerUpEnum PlayerUp { get => _playerup; set { _playerup = value; } }
+
+
+
         public void StartGame()
         {
-            
+            emojicardone = null;
+            emojicardtwo = null;
+            lstemojis = new() { "😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉" }; 
             _gamestatus = GameStatusEnum.Playing;
             _playerup = PlayerUpEnum.playerone;
             numtimesclicked  =0;
-            nonvisible = 0; //not sure if i need
+            nonvisible = 0; 
             lstemojicards = new List<EmojiCard>();
             InitializeGameCards();
         }
 
-        public void InitializeGameCards()
+        private void InitializeGameCards()
         {
             lstemojicards.Clear();
             List<string> lstshuffledemojis = new List<string>(lstemojis);
@@ -48,33 +79,38 @@ namespace EmojiMemoryGameSystem
             }
         }
         
-        public void CheckForWinner()
+        public bool CheckForWinner()
         {
-            if (scoreone > scoretwo == true)
-            {
-                _winnerenum = WinnerEnum.PlayerOne;
-            }
-            else if (scoretwo > scoreone)
-            {
-                _winnerenum = WinnerEnum.PlayerTwo;
-
-            }
-            else if (scoreone == scoretwo)
-            {
-                _winnerenum = WinnerEnum.Tie;
-
-            }
+            bool gameover = false;
             if (nonvisible == 20)
             {
-                _gamestatus = GameStatusEnum.GameOver; //maybo dont need
-                
+                _gamestatus = GameStatusEnum.GameOver; 
+       
             }
             else if (scoreone == 8 || scoretwo == 8)
             {
-                //MessageBox.Show(winner);
-                _gamestatus = GameStatusEnum.GameOver; //maybo dont need
-                
+                _gamestatus = GameStatusEnum.GameOver; 
             }
+            if (_gamestatus == GameStatusEnum.GameOver)
+            {
+                gameover = true;
+                if (scoreone > scoretwo == true)
+                {
+                    _winnerenum = WinnerEnum.PlayerOne;
+                }
+                else if (scoretwo > scoreone)
+                {
+                    _winnerenum = WinnerEnum.PlayerTwo;
+
+                }
+                else if (scoreone == scoretwo)
+                {
+                    _winnerenum = WinnerEnum.Tie;
+
+                }
+            }
+            return gameover;
+          
         }
 
         public void SwitchTurn()
@@ -89,51 +125,31 @@ namespace EmojiMemoryGameSystem
             }
 
             numtimesclicked = 0;
-            emojicardone = null;  
-            emojicardtwo = null;  
+            //emojicardone = null;  
+            //emojicardtwo = null;  
         }
 
-        //private void ChooseCard(EmojiCard emoji)
-        //{
-        //   // btn.Enabled = false;
-        //    if (numtimesclicked < 3)
-        //    {
-        //        Random rnd = new();
-        //        int n = rnd.Next(lstemojis.Count());
-        //        if (btn.Text == "")
-        //        {
-        //            btn.Text = lstemojis[n];
-        //            lstemojis.RemoveAt(n);
-        //            Font emojifont = new("Arial", 30);
-        //            btn.Font = emojifont;
-        //            btn.ForeColor = Color.Black;
-        //        }
-        //        else if (btn.ForeColor == Color.Yellow)
-        //        {
-        //            btn.ForeColor = Color.Black;
-        //        }
+        public void ChooseCard(EmojiCard emoji)
+        {
+                switch (numtimesclicked)
+                {
+                    case 1:
+                        emojicardone = emoji;
+                        break;
+                    case 2:
+                        emojicardtwo = emoji;
+                        break;
+                }
 
-        //        switch (numtimesclicked)
-        //        {
-        //            case 1:
-        //                cardone = btn;
-        //                break;
-        //            case 2:
-        //                cardtwo = btn;
-        //                break;
-        //        }
-
-        //        if (cardtwo != null)
-        //        {
-        //            CheckForMatch();
-        //            cardone.Enabled = true;
-        //            cardtwo.Enabled = true;
-        //        }
-        //    }
-        //}
+                if (emojicardtwo != null)
+                {
+                    CheckForMatch(emojicardone, emojicardtwo);
+                SwitchTurn();
+                }
+        }
 
         public void CheckForMatch(EmojiCard cardone, EmojiCard cardtwo)
-        {
+          {
             emojicardone = cardone;
             emojicardtwo = cardtwo;
             if (emojicardone.emoji.ToString() == emojicardtwo.emoji.ToString())
@@ -142,24 +158,41 @@ namespace EmojiMemoryGameSystem
 
                 if (_playerup == PlayerUpEnum.playerone)
                 {
-                    _winnerenum = WinnerEnum.PlayerOne;
                     scoreone = scoreone + 1;
                 }
                 else if (_playerup == PlayerUpEnum.playertwo)
                 {
-                    _winnerenum = WinnerEnum.PlayerTwo;
                     scoretwo = scoretwo + 1;
                 }
+                NoMatch = false;
+                
             }
             else if (emojicardone.emoji.ToString() != emojicardtwo.emoji.ToString())
             {
-                emojicardone = null;
-                emojicardtwo = null;
-                nomatch = true;
+                NoMatch = true;
             }
+            numtimesclicked = 0;
+            emojicardone = null;
+            emojicardtwo = null;
+        }
+        public void EndGame()
+        {
+            GameStatus = GameStatusEnum.GameOver;
+            numtimesclicked = 0;
+            nonvisible = 0;
+            scoreone = 0;
+            scoretwo = 0;
+            lstemojicards.Clear();
+            lstemojis.Clear();
+            emojicardone = null;
+            emojicardtwo = null;
+            
         }
 
-
+        private void InvokePropertyChanged([CallerMemberName] string propertyname = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
+        }
     }
 
 }
