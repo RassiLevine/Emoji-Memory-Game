@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using static System.Net.Mime.MediaTypeNames;
 namespace EmojiMemoryGameSystem
 {
     public class Game : INotifyPropertyChanged
@@ -14,7 +13,7 @@ namespace EmojiMemoryGameSystem
         private bool _nomatch;
         private int _scoreone = 0;
         private int _scoretwo = 0;
-
+        
         public List<EmojiCard> lstemojicards { get; private set; }
         private List<string> lstemojis;
         public EmojiCard emojicardone;
