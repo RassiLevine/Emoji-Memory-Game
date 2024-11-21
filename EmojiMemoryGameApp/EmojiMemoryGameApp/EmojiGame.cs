@@ -61,17 +61,11 @@ namespace EmojiMemoryGameApp
             }
             else if(btnStart.Text == "End Game")
             {
-                btnStart.Text = "START";
+                
                 game.EndGame();
                 foreach(Button btn in lstbuttons)
                 {
-                    btn.BackColor = Color.Yellow;
-                    btn.ForeColor = Color.Yellow;
-                    btn.Text = "";
-                    btn.Visible = true;
-                    btn.Enabled = false;
-                    btn.Tag = null;
-                    txtMsg.Text = "Press Start";
+                    SetButtonsForEndGame();
                     Debug.Print($"{btn.Text} {btn.Tag}");
                 }
                 lstbuttons.Clear();
@@ -79,8 +73,20 @@ namespace EmojiMemoryGameApp
             
   
         }
-
-       
+        private void SetButtonsForEndGame()
+        {
+            btnStart.Text = "START";
+            txtMsg.Text = "Press Start";
+            foreach (Button btn in lstbuttons)
+            {
+                btn.BackColor = Color.Yellow;
+                btn.ForeColor = Color.Yellow;
+                btn.Text = "";
+                btn.Visible = true;
+                btn.Enabled = false;
+                btn.Tag = null;
+            }
+        }
      
         private void B_Click(object? sender, EventArgs e)
       {
@@ -90,10 +96,10 @@ namespace EmojiMemoryGameApp
                 {
                     return;
                 }
-                
-                game.numtimesclicked = game.numtimesclicked + 1;
+
+                game.numtimesclicked++;
+
                 Button btn = (Button)sender;
-                
                 EmojiCard emj = btn.Tag as EmojiCard;
                 if (emj != null)
                 {
@@ -105,14 +111,7 @@ namespace EmojiMemoryGameApp
             if(game.CheckForWinner() == true)
             {
                 MessageBox.Show($"The winner is {game._winnerenum}!");
-                btnStart.Text = "START";
-                foreach (Button btn in lstbuttons)
-                {
-                    btn.Enabled = true;
-                    btn.Visible = true;
-                    btn.ForeColor = Color.Yellow;
-                    btn.BackColor = Color.Yellow;
-                }
+                SetButtonsForEndGame();
                 game.EndGame();
             }
         }
@@ -148,6 +147,7 @@ namespace EmojiMemoryGameApp
                         }
                     }
             }
+            game.HideEmoji(game.emojicardtwo, game.emojicardtwo);
         }
     }
 }
