@@ -12,12 +12,9 @@ namespace EmojiMemoryGameApp
         public EmojiGame()
         {
             InitializeComponent();
-
-            
             
             game.PropertyChanged += Game_PropertyChanged;
-            btnStart.Click += BtnStart_Click;
-            
+            btnStart.Click += BtnStart_Click;         
 
             txtScore1.DataBindings.Add("Text", game, "scoreone");
             txtScore2.DataBindings.Add("Text", game, "scoretwo");

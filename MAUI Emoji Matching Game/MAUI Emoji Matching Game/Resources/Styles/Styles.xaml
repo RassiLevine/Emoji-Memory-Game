@@ -11,6 +11,7 @@
         <Setter Property="Margin" Value="10"/>
         <Setter Property="BorderColor" Value="Black"/>
         <Setter Property="BorderWidth" Value="3"/>
+        <Setter Property="FontSize" Value="Large"/>
     </Style>
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />

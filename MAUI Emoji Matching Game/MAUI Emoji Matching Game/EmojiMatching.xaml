@@ -8,39 +8,38 @@
         <VerticalStackLayout Grid.Column="0">
             <Label x:Name="lblPlayer1" Text="Player 1" Margin="10" FontSize="25" FontAttributes="Bold"/>
             <Label x:Name="lblScore1" Text="Score" FontSize="20"/>
-            <Rectangle x:Name="score1" MinimumHeightRequest="50" MinimumWidthRequest="50" BackgroundColor="Gray"/>
+            <Label x:Name="score1" Text="{Binding scoreone}" FontSize="Large" MinimumHeightRequest="50" MinimumWidthRequest="50" BackgroundColor="Gray"/>
            
         </VerticalStackLayout>
         <Button Grid.Column="0" x:Name="btnStart" Text="Start" BackgroundColor="Red" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="End"/>
 
         <Grid ColumnDefinitions ="*,*,*,*,*" RowDefinitions="*,*,*,*" Grid.Column="1">
-            <Button x:Name="btn1" Style="{StaticResource Key=game-board}" Grid.Column="0" Grid.Row="0"/>
-            <Button x:Name="btn2" Style="{StaticResource Key=game-board}" Grid.Column="1" Grid.Row="0"/>
-            <Button x:Name="btn3" Style="{StaticResource Key=game-board}" Grid.Column="2" Grid.Row="0"/>
-            <Button x:Name="btn4" Style="{StaticResource Key=game-board}" Grid.Column="3" Grid.Row="0"/>
-            <Button x:Name="btn5" Style="{StaticResource Key=game-board}" Grid.Column="4" Grid.Row="0"/>
-            <Button x:Name="btn6" Style="{StaticResource Key=game-board}" Grid.Column="0" Grid.Row="1"/>
-            <Button x:Name="btn7" Style="{StaticResource Key=game-board}" Grid.Column="1" Grid.Row="1"/>
-            <Button x:Name="btn8" Style="{StaticResource Key=game-board}" Grid.Column="2" Grid.Row="1"/>
-            <Button x:Name="btn9" Style="{StaticResource Key=game-board}" Grid.Column="3" Grid.Row="1"/>
-            <Button x:Name="btn10" Style="{StaticResource Key=game-board}" Grid.Column="4" Grid.Row="1"/>
-            <Button x:Name="btn11" Style="{StaticResource Key=game-board}" Grid.Column="0" Grid.Row="2"/>
-            <Button x:Name="btn12" Style="{StaticResource Key=game-board}" Grid.Column="1" Grid.Row="2"/>
-            <Button x:Name="btn13" Style="{StaticResource Key=game-board}" Grid.Column="2" Grid.Row="2"/>
-            <Button x:Name="btn14" Style="{StaticResource Key=game-board}" Grid.Column="3" Grid.Row="2"/>
-            <Button x:Name="btn15" Style="{StaticResource Key=game-board}" Grid.Column="4" Grid.Row="2"/>
-            <Button x:Name="btn16" Style="{StaticResource Key=game-board}" Grid.Column="0" Grid.Row="3"/>
-            <Button x:Name="btn17" Style="{StaticResource Key=game-board}" Grid.Column="1" Grid.Row="3"/>
-            <Button x:Name="btn18" Style="{StaticResource Key=game-board}" Grid.Column="2" Grid.Row="3"/>
-            <Button x:Name="btn19" Style="{StaticResource Key=game-board}" Grid.Column="3" Grid.Row="3"/>
-            <Button x:Name="btn20" Style="{StaticResource Key=game-board}" Grid.Column="4" Grid.Row="3"/>
-
+            <Button x:Name="btn1" Text="{Binding DisplayedText}"  IsEnabled = "{Binding IsEnabled}" Style="{StaticResource Key=game-board}" Grid.Column="0" Grid.Row="0"/>
+            <Button x:Name="btn2"  Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="1" Grid.Row="0"/>
+            <Button x:Name="btn3"  Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}" Style="{StaticResource Key=game-board}" Grid.Column="2" Grid.Row="0"/>
+            <Button x:Name="btn4"  Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}" Style="{StaticResource Key=game-board}" Grid.Column="3" Grid.Row="0"/>
+            <Button x:Name="btn5"  Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}" Style="{StaticResource Key=game-board}" Grid.Column="4" Grid.Row="0"/>
+            <Button x:Name="btn6"  Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}" Style="{StaticResource Key=game-board}" Grid.Column="0" Grid.Row="1"/>
+            <Button x:Name="btn7"  Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}" Style="{StaticResource Key=game-board}" Grid.Column="1" Grid.Row="1"/>
+            <Button x:Name="btn8"  Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}" Style="{StaticResource Key=game-board}" Grid.Column="2" Grid.Row="1"/>
+            <Button x:Name="btn9"  Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}" Style="{StaticResource Key=game-board}" Grid.Column="3" Grid.Row="1"/>
+            <Button x:Name="btn10" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="4" Grid.Row="1"/>
+            <Button x:Name="btn11" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="0" Grid.Row="2"/>
+            <Button x:Name="btn12" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="1" Grid.Row="2"/>
+            <Button x:Name="btn13" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="2" Grid.Row="2"/>
+            <Button x:Name="btn14" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="3" Grid.Row="2"/>
+            <Button x:Name="btn15" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="4" Grid.Row="2"/>
+            <Button x:Name="btn16" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="0" Grid.Row="3"/>
+            <Button x:Name="btn17" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="1" Grid.Row="3"/>
+            <Button x:Name="btn18" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="2" Grid.Row="3"/>
+            <Button x:Name="btn19" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="3" Grid.Row="3"/>
+            <Button x:Name="btn20" Text="{Binding DisplayedText}" IsEnabled = "{Binding IsEnabled}"  Style="{StaticResource Key=game-board}" Grid.Column="4" Grid.Row="3"/>
         </Grid>
 
         <VerticalStackLayout Grid.Column="2">
             <Label x:Name="lblPlayer2" Text="Player 2" Margin="10" FontSize="25" FontAttributes="Bold"/>
             <Label x:Name="lblScore2" Text="Score" FontSize="20"/>
-            <Rectangle x:Name="score2" MinimumHeightRequest="50" MinimumWidthRequest="50" BackgroundColor="Gray"/>
+            <Label x:Name="score2" Text="{Binding scoretwo}" FontSize="Large" MinimumHeightRequest="50" MinimumWidthRequest="50" BackgroundColor="Gray"/>
         </VerticalStackLayout>
 
     </Grid>
