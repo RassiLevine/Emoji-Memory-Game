@@ -5,19 +5,27 @@ namespace EmojiMemoryGameApp
 {
     public partial class EmojiGame : Form
     {
-        Game game = new();
+        Game activegame = new();
+        List<Game> lstgames = new() { new Game(), new Game(), new Game()};
         List<Button> lstbuttons;
         public EmojiCard emojicard;
 
         public EmojiGame()
         {
             InitializeComponent();
-            
-            game.PropertyChanged += Game_PropertyChanged;
+            //rdbGame1.Tag = lstgames[0];
+            //rdbGame2.Tag = lstgames[1];
+            //rdbGame3.Tag = lstgames[2];
+            //activegame = lstgames[0];
+            //rdbGame1.Checked = true;
+            //rdbGame1.CheckedChanged += Game_CheckedChanged;
+            //rdbGame2.CheckedChanged += Game_CheckedChanged;
+            //rdbGame3.CheckedChanged += Game_CheckedChanged;
+           
             btnStart.Click += BtnStart_Click;         
 
-            txtScore1.DataBindings.Add("Text", game, "scoreone");
-            txtScore2.DataBindings.Add("Text", game, "scoretwo");
+            txtScore1.DataBindings.Add("Text", activegame, "scoreone");
+            txtScore2.DataBindings.Add("Text", activegame, "scoretwo");
             txtMsg.Text = "Press Start";
         
         }
@@ -26,7 +34,7 @@ namespace EmojiMemoryGameApp
             lstbuttons = new() { btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20 };
             lstbuttons.ForEach(b => b.Click -= B_Click);
             lstbuttons.ForEach(b => b.Click += B_Click);
-            if (lstbuttons.Count < game.lstemojicards.Count)
+            if (lstbuttons.Count < activegame.lstemojicards.Count)
             {
                 MessageBox.Show("cannot set up cards. the number of buttons and emoji cards do not match");
                 return;
@@ -34,8 +42,8 @@ namespace EmojiMemoryGameApp
             foreach(Button b in lstbuttons)
             {
                 Random rnd = new();
-                int rndint = rnd.Next(game.lstemojicards.Count);
-                EmojiCard randomcard = game.lstemojicards[rndint];
+                int rndint = rnd.Next(activegame.lstemojicards.Count);
+                EmojiCard randomcard = activegame.lstemojicards[rndint];
                 b.Text = randomcard.emoji;
                 b.Font = new Font(Button.DefaultFont.FontFamily, 30);
                 b.ForeColor = Color.Yellow;
@@ -43,7 +51,7 @@ namespace EmojiMemoryGameApp
                 b.Tag = randomcard;
                 b.Enabled = true;
 
-                game.lstemojicards.RemoveAt(rndint);
+                activegame.lstemojicards.RemoveAt(rndint);
                 Debug.Print($"{b.ForeColor} {b.Text} {b.Tag}");
             }
            
@@ -55,14 +63,14 @@ namespace EmojiMemoryGameApp
             {
                 
                 btnStart.Text = "End Game";
-                game.StartGame();
+                activegame.StartGame();
                 SetButtonsValue();
-                txtMsg.Text = game.GameStatus.ToString();
+                txtMsg.Text = activegame.GameStatus.ToString();
             }
             else if(btnStart.Text == "End Game")
             {
                 
-                game.EndGame();
+                activegame.EndGame();
                 foreach(Button btn in lstbuttons)
                 {
                     SetButtonsForEndGame();
@@ -90,14 +98,14 @@ namespace EmojiMemoryGameApp
      
         private void B_Click(object? sender, EventArgs e)
       {
-            if (game.GameStatus == Game.GameStatusEnum.Playing)
+            if (activegame.GameStatus == Game.GameStatusEnum.Playing)
             {
-                if (game.numtimesclicked >= 2)
+                if (activegame.numtimesclicked >= 2)
                 {
                     return;
                 }
 
-                game.numtimesclicked++;
+                activegame.numtimesclicked++;
 
                 Button btn = (Button)sender;
                 EmojiCard emj = btn.Tag as EmojiCard;
@@ -105,14 +113,14 @@ namespace EmojiMemoryGameApp
                 {
                     btn.Enabled = false;
                     btn.ForeColor = Color.Black;
-                    game.ChooseCard(emj);
+                    activegame.ChooseCard(emj);
                 }
             }
-            if(game.CheckForWinner() == true)
+            if(activegame.CheckForWinner() == true)
             {
-                MessageBox.Show($"The winner is {game._winnerenum}!");
+                MessageBox.Show($"The winner is {activegame._winnerenum}!");
                 SetButtonsForEndGame();
-                game.EndGame();
+                activegame.EndGame();
             }
         }
         private void Game_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -126,7 +134,7 @@ namespace EmojiMemoryGameApp
 
         private void UpdateButton()
         {
-                if(game.NoMatch == true)
+                if(activegame.NoMatch == true)
                 {
                   MessageBox.Show("No Match");
                     foreach (Button btn in lstbuttons)
@@ -135,7 +143,7 @@ namespace EmojiMemoryGameApp
                         btn.ForeColor = Color.Yellow;
                     }
                 }
-                else if(game.NoMatch == false)
+                else if(activegame.NoMatch == false)
                 {
                   MessageBox.Show("You Got a Match!");
                     foreach (Button btn in lstbuttons)
@@ -147,7 +155,23 @@ namespace EmojiMemoryGameApp
                         }
                     }
             }
-            game.HideEmoji(game.emojicardtwo, game.emojicardtwo);
+            activegame.HideEmoji(activegame.emojicardtwo, activegame.emojicardtwo);
         }
+        //private void Game_CheckedChanged(object? sender, EventArgs e)
+        //{
+        //    if(rdbGame1.Checked)
+        //    {
+        //        activegame = (Game)rdbGame1.Tag;
+        //    }
+        //    else if (rdbGame2.Checked)
+        //    {
+        //        activegame = (Game)rdbGame2.Tag;
+        //    }
+        //    else if (rdbGame3.Checked)
+        //    {
+        //        activegame = (Game)rdbGame3.Tag;
+        //    }
+        //    activegame.PropertyChanged += Game_PropertyChanged; ///add back to initializer
+        //}
     }
 }

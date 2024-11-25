@@ -1,6 +1,4 @@
 using EmojiMemoryGameSystem;
-using System.Diagnostics;
-using System.Runtime.Intrinsics.Arm;
 namespace MAUI_Emoji_Matching_Game;
 
 public partial class EmojiMatching : ContentPage
@@ -8,8 +6,6 @@ public partial class EmojiMatching : ContentPage
     Game activegame = new();
     List<Button> lstbuttons;
     List<Game> lstgames = new() { new Game(), new Game(), new Game() };
-
-    //list of all emojiscards that survices each reset of game
     List<EmojiCard> persistedlstemojicards = new();
 
 
@@ -37,9 +33,7 @@ public partial class EmojiMatching : ContentPage
         {
             btnStart.Text = "End Game";
             activegame.StartGame();
-
             SetButtonsValue();
-
         }
 
         else
@@ -62,7 +56,7 @@ public partial class EmojiMatching : ContentPage
 
     private async void SetButtonsValue()
     {
-      
+        persistedlstemojicards.Clear();
         lstbuttons = new() { btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20 };
         lstbuttons.ForEach(b => b.Clicked -= B_Clicked);
         lstbuttons.ForEach(b => b.Clicked += B_Clicked);
@@ -110,8 +104,8 @@ public partial class EmojiMatching : ContentPage
         if (activegame.CheckForWinner() == true)
         {
             await Application.Current.MainPage.DisplayAlert("WINNER!", $"The winner is {activegame._winnerenum}!", "OK");
-            SetButtonForEndGame();
-            activegame.EndGame();
+            //SetButtonForEndGame();
+            //activegame.EndGame();
         }
     }
     private void Game_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -146,13 +140,6 @@ public partial class EmojiMatching : ContentPage
 
     private async void Game_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        if (btnStart.Text == "Start")
-        {
-            await Application.Current.MainPage.DisplayAlert("START", "Please press the Start button", "OK");
-            //await Application.Current.MainPage.DisplayAlert("WINNER!", $"The winner is {activegame._winnerenum}!", "OK");
-        }
-        else
-        {
             RadioButton rdb = (RadioButton)sender;
             if (rdb.IsChecked == true && rdb.BindingContext != null)
             {
@@ -162,28 +149,9 @@ public partial class EmojiMatching : ContentPage
                 activegame.PropertyChanged += Game_PropertyChanged;
                 if (activegame._gamestatus == Game.GameStatusEnum.NotStarted)
                 {
-                    activegame.lstemojicards = persistedlstemojicards;
-                   // activegame.StartGame();
+                    activegame._gamestatus = Game.GameStatusEnum.Playing;
+                    activegame.lstemojicards = new List<EmojiCard> ( persistedlstemojicards);
                     SetButtonsValue();
-                    int i = 0;
-                    int x = 0;
-                    foreach (Button b in lstbuttons)
-                    {
-                        if (b.IsEnabled == true)
-                        {
-                            i++;
-                            Debug.Print(i.ToString());
-                        }
-                    }
-                    foreach (EmojiCard em in activegame.lstemojicards)
-                    {
-                        if (em.IsTextVisible == true)
-                        {
-                            x++;
-                            Debug.Print(x.ToString());
-                        }
-                    }
-                }
             }
         }
     }

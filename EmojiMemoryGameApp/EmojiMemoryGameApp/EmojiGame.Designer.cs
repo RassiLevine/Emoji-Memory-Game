@@ -60,10 +60,16 @@
             txtScore2 = new TextBox();
             lblScore2 = new Label();
             txtMsg = new TextBox();
+            rdbGame1 = new RadioButton();
+            rdbGame2 = new RadioButton();
+            tblRadiobuttons = new TableLayoutPanel();
+            rdbGame3 = new RadioButton();
+            lblScoreTrack = new Label();
             tblMain.SuspendLayout();
             tblButton.SuspendLayout();
             tbl1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
+            tblRadiobuttons.SuspendLayout();
             SuspendLayout();
             // 
             // tblMain
@@ -79,6 +85,7 @@
             tblMain.Controls.Add(tbl1, 0, 1);
             tblMain.Controls.Add(tableLayoutPanel1, 2, 1);
             tblMain.Controls.Add(txtMsg, 1, 0);
+            tblMain.Controls.Add(tblRadiobuttons, 1, 2);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
             tblMain.Name = "tblMain";
@@ -450,6 +457,71 @@
             txtMsg.TabIndex = 6;
             txtMsg.TextAlign = HorizontalAlignment.Center;
             // 
+            // rdbGame1
+            // 
+            rdbGame1.AutoSize = true;
+            rdbGame1.Dock = DockStyle.Fill;
+            rdbGame1.Location = new Point(3, 41);
+            rdbGame1.Name = "rdbGame1";
+            rdbGame1.Size = new Size(150, 32);
+            rdbGame1.TabIndex = 0;
+            rdbGame1.TabStop = true;
+            rdbGame1.Text = "Game 1";
+            rdbGame1.UseVisualStyleBackColor = true;
+            // 
+            // rdbGame2
+            // 
+            rdbGame2.AutoSize = true;
+            rdbGame2.Dock = DockStyle.Fill;
+            rdbGame2.Location = new Point(159, 41);
+            rdbGame2.Name = "rdbGame2";
+            rdbGame2.Size = new Size(150, 32);
+            rdbGame2.TabIndex = 1;
+            rdbGame2.TabStop = true;
+            rdbGame2.Text = "Game2";
+            rdbGame2.UseVisualStyleBackColor = true;
+            // 
+            // tblRadiobuttons
+            // 
+            tblRadiobuttons.ColumnCount = 3;
+            tblRadiobuttons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblRadiobuttons.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblRadiobuttons.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 126F));
+            tblRadiobuttons.Controls.Add(rdbGame1, 0, 1);
+            tblRadiobuttons.Controls.Add(rdbGame2, 1, 1);
+            tblRadiobuttons.Controls.Add(rdbGame3, 2, 1);
+            tblRadiobuttons.Controls.Add(lblScoreTrack, 0, 0);
+            tblRadiobuttons.Dock = DockStyle.Fill;
+            tblRadiobuttons.Location = new Point(180, 371);
+            tblRadiobuttons.Name = "tblRadiobuttons";
+            tblRadiobuttons.RowCount = 2;
+            tblRadiobuttons.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tblRadiobuttons.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tblRadiobuttons.Size = new Size(438, 76);
+            tblRadiobuttons.TabIndex = 7;
+            // 
+            // rdbGame3
+            // 
+            rdbGame3.AutoSize = true;
+            rdbGame3.Dock = DockStyle.Fill;
+            rdbGame3.Location = new Point(315, 41);
+            rdbGame3.Name = "rdbGame3";
+            rdbGame3.Size = new Size(120, 32);
+            rdbGame3.TabIndex = 2;
+            rdbGame3.TabStop = true;
+            rdbGame3.Text = "Game 3";
+            rdbGame3.UseVisualStyleBackColor = true;
+            // 
+            // lblScoreTrack
+            // 
+            lblScoreTrack.AutoSize = true;
+            tblRadiobuttons.SetColumnSpan(lblScoreTrack, 3);
+            lblScoreTrack.Dock = DockStyle.Fill;
+            lblScoreTrack.Location = new Point(3, 0);
+            lblScoreTrack.Name = "lblScoreTrack";
+            lblScoreTrack.Size = new Size(432, 38);
+            lblScoreTrack.TabIndex = 3;
+            // 
             // EmojiGame
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -465,6 +537,8 @@
             tbl1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            tblRadiobuttons.ResumeLayout(false);
+            tblRadiobuttons.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -502,6 +576,11 @@
         private TextBox txtScore1;
         private TextBox txtScore2;
         private TextBox txtMsg;
+        private RadioButton rdbGame2;
+        private RadioButton rdbGame1;
+        private TableLayoutPanel tblRadiobuttons;
+        private RadioButton rdbGame3;
+        private Label lblScoreTrack;
         //private Label label1;
     }
 }
