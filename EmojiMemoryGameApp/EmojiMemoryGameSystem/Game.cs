@@ -6,13 +6,17 @@ namespace EmojiMemoryGameSystem
     public class Game : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler? ScoreChanged;
 
         private PlayerUpEnum _playerup = PlayerUpEnum.playerone;
-        private GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
+        public GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
         public WinnerEnum _winnerenum = WinnerEnum.Tie;
         private bool _nomatch;
         private int _scoreone = 0;
         private int _scoretwo = 0;
+        private static int playeronewins;
+        private static int playertwowins;
+        private static int scoreties;
         
         public List<EmojiCard> lstemojicards { get; private set; }
         private List<string> lstemojis;
@@ -55,6 +59,7 @@ namespace EmojiMemoryGameSystem
         public GameStatusEnum GameStatus { get => _gamestatus; set { _gamestatus = value; } }
         public PlayerUpEnum PlayerUp { get => _playerup; set { _playerup = value; } }
 
+        public string Score { get => $"Player One wins = {playeronewins}; Player Two wins = {playertwowins}; Ties = {scoreties}"; }
 
 
         public void StartGame()
@@ -72,6 +77,7 @@ namespace EmojiMemoryGameSystem
 
         private void InitializeGameCards()
         {
+            int i = 0;
             lstemojicards.Clear();
             List<string> lstshuffledemojis = new List<string>(lstemojis);
             lstemojis.AddRange(lstshuffledemojis);
@@ -85,6 +91,8 @@ namespace EmojiMemoryGameSystem
             {
                 e.IsEnabled = true;
                 e.IsTextVisible = false;
+                i++;
+                Debug.Print(i.ToString());
             }
         }
 
@@ -106,18 +114,20 @@ namespace EmojiMemoryGameSystem
                 if (scoreone > scoretwo == true)
                 {
                     _winnerenum = WinnerEnum.PlayerOne;
+                    playeronewins++;
                 }
                 else if (scoretwo > scoreone)
                 {
                     _winnerenum = WinnerEnum.PlayerTwo;
-
+                    playertwowins++;
                 }
                 else if (scoreone == scoretwo)
                 {
                     _winnerenum = WinnerEnum.Tie;
-
+                    scoreties++;
                 }
             }
+            ScoreChanged?.Invoke(this, new EventArgs());
             return gameover;
 
         }
