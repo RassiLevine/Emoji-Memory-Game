@@ -17,8 +17,9 @@ namespace EmojiMemoryGameSystem
         private static int playeronewins;
         private static int playertwowins;
         private static int scoreties;
-        
-        public List<EmojiCard> lstemojicards { get; private set; }
+
+        public List<EmojiCard> oldlstemojicards { get; set; } = new();
+        public List<EmojiCard> lstemojicards { get; set; } = new();
         private List<string> lstemojis;
         public EmojiCard emojicardone;
         public EmojiCard emojicardtwo;
@@ -59,7 +60,7 @@ namespace EmojiMemoryGameSystem
         public GameStatusEnum GameStatus { get => _gamestatus; set { _gamestatus = value; } }
         public PlayerUpEnum PlayerUp { get => _playerup; set { _playerup = value; } }
 
-        public string Score { get => $"Player One wins = {playeronewins}; Player Two wins = {playertwowins}; Ties = {scoreties}"; }
+        public static string Score { get => $"Player One wins = {playeronewins}; Player Two wins = {playertwowins}; Ties = {scoreties}"; }
 
 
         public void StartGame()
@@ -71,7 +72,9 @@ namespace EmojiMemoryGameSystem
             _playerup = PlayerUpEnum.playerone;
             numtimesclicked = 0;
             nonvisible = 0;
-            lstemojicards = new List<EmojiCard>();
+
+            lstemojicards = oldlstemojicards;
+            //lstemojicards = new List<EmojiCard>();
             InitializeGameCards();
         }
 
@@ -94,6 +97,9 @@ namespace EmojiMemoryGameSystem
                 i++;
                 Debug.Print(i.ToString());
             }
+            //this should only run on the FIRST time
+            oldlstemojicards = lstemojicards;
+
         }
 
         public bool CheckForWinner()

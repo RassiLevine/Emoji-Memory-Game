@@ -44,7 +44,7 @@
         <VerticalStackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
             <Label x:Name="ScoreLbl"/>
             <HorizontalStackLayout >
-                <RadioButton x:Name="Game1rdb" Content="Game 1" VerticalOptions="Center" Padding="10" CheckedChanged="Game_CheckedChanged" IsChecked="True"/>
+                <RadioButton x:Name="Game1rdb" Content="Game 1" VerticalOptions="Center" Padding="10" CheckedChanged="Game_CheckedChanged"/>
                 <RadioButton x:Name="Game2rdb" Content="Game 2" VerticalOptions="Center" Padding="10" CheckedChanged="Game_CheckedChanged"/>
                 <RadioButton x:Name="Game3rdb" Content="Game 3" VerticalOptions="Center" Padding="10" CheckedChanged="Game_CheckedChanged"/>
             </HorizontalStackLayout>

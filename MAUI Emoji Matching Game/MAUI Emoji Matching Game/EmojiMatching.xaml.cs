@@ -8,6 +8,11 @@ public partial class EmojiMatching : ContentPage
     Game activegame = new();
     List<Button> lstbuttons;
     List<Game> lstgames = new() { new Game(), new Game(), new Game() };
+
+    //list of all emojiscards that survices each reset of game
+    List<EmojiCard> persistedlstemojicards = new();
+
+
     public EmojiMatching()
     {
         InitializeComponent();
@@ -23,7 +28,7 @@ public partial class EmojiMatching : ContentPage
 
     private void G_ScoreChanged(object sender, EventArgs e)
     {
-        
+        ScoreLbl.Text = Game.Score;
     }
 
     private void BtnStart_Clicked(object sender, EventArgs e)
@@ -32,7 +37,9 @@ public partial class EmojiMatching : ContentPage
         {
             btnStart.Text = "End Game";
             activegame.StartGame();
+
             SetButtonsValue();
+
         }
 
         else
@@ -55,6 +62,7 @@ public partial class EmojiMatching : ContentPage
 
     private async void SetButtonsValue()
     {
+      
         lstbuttons = new() { btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20 };
         lstbuttons.ForEach(b => b.Clicked -= B_Clicked);
         lstbuttons.ForEach(b => b.Clicked += B_Clicked);
@@ -69,10 +77,13 @@ public partial class EmojiMatching : ContentPage
             int rndint = rnd.Next(activegame.lstemojicards.Count);
             EmojiCard randomcard = activegame.lstemojicards[rndint];
             b.IsEnabled = true;
+            b.IsVisible = true;
             b.BindingContext = randomcard;
 
-            activegame.lstemojicards.RemoveAt(rndint);
+            activegame.lstemojicards.Remove(randomcard);
+            persistedlstemojicards.Add(randomcard);
         }
+        persistedlstemojicards.ForEach(e => e.IsTextVisible = false);
 
     }
 
@@ -104,7 +115,7 @@ public partial class EmojiMatching : ContentPage
         }
     }
     private void Game_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-          {
+    {
         if (e.PropertyName == "NoMatch")
         {
             UpdateButton();
@@ -134,7 +145,7 @@ public partial class EmojiMatching : ContentPage
     }
 
     private async void Game_CheckedChanged(object sender, CheckedChangedEventArgs e)
-     {
+    {
         if (btnStart.Text == "Start")
         {
             await Application.Current.MainPage.DisplayAlert("START", "Please press the Start button", "OK");
@@ -149,23 +160,24 @@ public partial class EmojiMatching : ContentPage
                 this.BindingContext = activegame;
                 activegame.PropertyChanged -= Game_PropertyChanged;
                 activegame.PropertyChanged += Game_PropertyChanged;
-                if(activegame._gamestatus == Game.GameStatusEnum.NotStarted)
+                if (activegame._gamestatus == Game.GameStatusEnum.NotStarted)
                 {
-                    activegame.StartGame();
+                    activegame.lstemojicards = persistedlstemojicards;
+                   // activegame.StartGame();
                     SetButtonsValue();
                     int i = 0;
                     int x = 0;
-                    foreach(Button b in lstbuttons)
+                    foreach (Button b in lstbuttons)
                     {
-                        if(b.IsEnabled == true)
+                        if (b.IsEnabled == true)
                         {
                             i++;
                             Debug.Print(i.ToString());
                         }
                     }
-                    foreach(EmojiCard em in activegame.lstemojicards)
+                    foreach (EmojiCard em in activegame.lstemojicards)
                     {
-                        if(em.IsTextVisible == true)
+                        if (em.IsTextVisible == true)
                         {
                             x++;
                             Debug.Print(x.ToString());
