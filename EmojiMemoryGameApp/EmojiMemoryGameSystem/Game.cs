@@ -21,6 +21,7 @@ namespace EmojiMemoryGameSystem
         //public List<EmojiCard> oldlstemojicards { get; set; } = new();
         public List<EmojiCard> lstemojicards { get; set; } = new();
         private List<string> lstemojis;
+        public List<EmojiCard> lsthiddenemojicard = new();
         public EmojiCard emojicardone;
         public EmojiCard emojicardtwo;
 
@@ -110,7 +111,7 @@ namespace EmojiMemoryGameSystem
             {
                 gameover = true;
             }
-            if (gameover == true)//_gamestatus == GameStatusEnum.GameOver)
+            if (gameover == true)
             {
                 
                 if (scoreone > scoretwo == true)
@@ -208,7 +209,7 @@ namespace EmojiMemoryGameSystem
             scoretwo = 0;
             lstemojicards.ForEach(e => e.IsTextVisible = false);
             lstemojicards.Clear();
-            lstemojis.Clear();
+            lsthiddenemojicard.Clear();
             emojicardone = null;
             emojicardtwo = null;
 

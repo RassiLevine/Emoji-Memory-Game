@@ -1,4 +1,5 @@
 using EmojiMemoryGameSystem;
+using System.Diagnostics;
 namespace MAUI_Emoji_Matching_Game;
 
 public partial class EmojiMatching : ContentPage
@@ -7,6 +8,7 @@ public partial class EmojiMatching : ContentPage
     List<Button> lstbuttons;
     List<Game> lstgames = new() { new Game(), new Game(), new Game() };
     List<EmojiCard> persistedlstemojicards = new();
+    List<EmojiCard> lstpersistedhiddenemoji = new();
 
 
     public EmojiMatching()
@@ -29,21 +31,28 @@ public partial class EmojiMatching : ContentPage
 
     private void BtnStart_Clicked(object sender, EventArgs e)
     {
-        if (btnStart.Text == "Start" && activegame._gamestatus == Game.GameStatusEnum.NotStarted)
+        if (btnStart.Text == "Start" && (activegame.GameStatus == Game.GameStatusEnum.NotStarted || activegame.GameStatus == Game.GameStatusEnum.GameOver))
         {
-            btnStart.Text = "End Game";
-            activegame.StartGame();
-            SetButtonsValue();
+            SetBoardForStartGame();
         }
 
         else
-        {
-            activegame.EndGame();
-            SetButtonForEndGame();
+        {  
+            SetBoardForEndGame(); 
         }
     }
-    private void SetButtonForEndGame()
+    private void SetBoardForStartGame()
     {
+        btnStart.Text = "End Game";
+        activegame.StartGame();
+        SetButtonsValue();
+        Game1rdb.IsEnabled = true;
+        Game2rdb.IsEnabled = true;
+        Game3rdb.IsEnabled = true;
+    }
+    private void SetBoardForEndGame()
+    {
+        activegame.EndGame();
         btnStart.Text = "Start";
         foreach (Button b in lstbuttons)
         {
@@ -52,7 +61,11 @@ public partial class EmojiMatching : ContentPage
             b.IsEnabled = false;
             b.IsVisible = true;
         }
+        Game1rdb.IsEnabled = false;
+        Game2rdb.IsEnabled = false;
+        Game3rdb.IsEnabled = false;
     }
+    
 
     private async void SetButtonsValue()
     {
@@ -104,8 +117,6 @@ public partial class EmojiMatching : ContentPage
         if (activegame.CheckForWinner() == true)
         {
             await Application.Current.MainPage.DisplayAlert("WINNER!", $"The winner is {activegame._winnerenum}!", "OK");
-            //SetButtonForEndGame();
-            //activegame.EndGame();
         }
     }
     private void Game_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -120,13 +131,15 @@ public partial class EmojiMatching : ContentPage
     {
         if (activegame.NoMatch == true)
         {
-            await Application.Current.MainPage.DisplayAlert("Match Status", "No Match!", "OK");
+             await Application.Current.MainPage.DisplayAlert("Match Status", "No Match!", "OK");
             lstbuttons.ForEach(b => b.IsEnabled = true);
             activegame.HideEmoji(activegame.emojicardone, activegame.emojicardtwo);
         }
-        else if (activegame.NoMatch == false)
+        else  if (activegame.NoMatch == false)
         {
             await Application.Current.MainPage.DisplayAlert("Match Status", "You Got a Match!", "OK");
+            activegame.lsthiddenemojicard.Add(activegame.emojicardone);
+            activegame.lsthiddenemojicard.Add(activegame.emojicardtwo);
             activegame.HideEmoji(activegame.emojicardtwo, activegame.emojicardtwo);
             foreach (Button b in lstbuttons)
             {
@@ -149,12 +162,27 @@ public partial class EmojiMatching : ContentPage
                 activegame.PropertyChanged += Game_PropertyChanged;
                 if (activegame._gamestatus == Game.GameStatusEnum.NotStarted)
                 {
-                    activegame._gamestatus = Game.GameStatusEnum.Playing;
+                    activegame.GameStatus = Game.GameStatusEnum.Playing;
+                    activegame.lsthiddenemojicard = new List<EmojiCard>(lstpersistedhiddenemoji);
                     activegame.lstemojicards = new List<EmojiCard> ( persistedlstemojicards);
+                    activegame.lsthiddenemojicard.Clear();
                     SetButtonsValue();
+                }
+            foreach(Button b in lstbuttons)
+            {
+                EmojiCard emj = b.BindingContext as EmojiCard;
+                b.IsVisible = true;
+                b.IsEnabled = true;
+                emj.IsTextVisible = false;
+                if (emj != null && activegame.lsthiddenemojicard.Contains(emj))
+                {
+                    b.IsVisible = false;
+                    b.IsEnabled = false;
+                    emj.IsTextVisible = false;
+                }
+
             }
+
+        }
         }
     }
-
-
-}

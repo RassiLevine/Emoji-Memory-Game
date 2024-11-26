@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace EmojiMemoryGameSystem
 {
-    public class EmojiCard: INotifyPropertyChanged
+    public class EmojiCard : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public string emoji { get; set; }
@@ -36,7 +36,6 @@ namespace EmojiMemoryGameSystem
                 this.InvokePropertyChanged("IsEnabled");
             }
         }
-
         private void InvokePropertyChanged([CallerMemberName] string propertyname = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyname));
