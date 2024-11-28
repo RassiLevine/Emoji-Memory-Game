@@ -118,7 +118,7 @@ namespace EmojiMemoryGameApp
             }
             if(activegame.CheckForWinner() == true)
             {
-                MessageBox.Show($"The winner is {activegame._winnerenum}!");
+                MessageBox.Show($"The winner is {activegame.Winner}!");
                 SetButtonsForEndGame();
                 activegame.EndGame();
             }

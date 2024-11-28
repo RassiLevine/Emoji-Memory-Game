@@ -10,7 +10,7 @@ namespace EmojiMemoryGameSystem
 
         private PlayerUpEnum _playerup = PlayerUpEnum.playerone;
         public GameStatusEnum _gamestatus = GameStatusEnum.NotStarted;
-        public WinnerEnum _winnerenum = WinnerEnum.Tie;
+        public WinnerEnum Winner { get; private set; } = WinnerEnum.Tie;
         private bool _nomatch;
         private int _scoreone = 0;
         private int _scoretwo = 0;
@@ -111,22 +111,22 @@ namespace EmojiMemoryGameSystem
             {
                 gameover = true;
             }
-            if (gameover == true)
+            if (gameover == true || GameStatus == Game.GameStatusEnum.GameOver)
             {
                 
                 if (scoreone > scoretwo == true)
                 {
-                    _winnerenum = WinnerEnum.PlayerOne;
+                    Winner = WinnerEnum.PlayerOne;
                     playeronewins++;
                 }
                 else if (scoretwo > scoreone)
                 {
-                    _winnerenum = WinnerEnum.PlayerTwo;
+                    Winner = WinnerEnum.PlayerTwo;
                     playertwowins++;
                 }
                 else if (scoreone == scoretwo)
                 {
-                    _winnerenum = WinnerEnum.Tie;
+                    Winner = WinnerEnum.Tie;
                     scoreties++;
                 }
             }

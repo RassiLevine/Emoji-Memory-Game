@@ -116,7 +116,7 @@ public partial class EmojiMatching : ContentPage
         }
         if (activegame.CheckForWinner() == true)
         {
-            await Application.Current.MainPage.DisplayAlert("WINNER!", $"The winner is {activegame._winnerenum}!", "OK");
+            await Application.Current.MainPage.DisplayAlert("WINNER!", $"The winner is {activegame.Winner}!", "OK");
         }
     }
     private void Game_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

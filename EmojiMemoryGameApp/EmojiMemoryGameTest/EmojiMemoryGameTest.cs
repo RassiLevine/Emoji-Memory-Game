@@ -73,10 +73,11 @@ namespace EmojiMemoryGameTest
             game.CheckForMatch(new EmojiCard("😍"), new EmojiCard("😊")); // player two no match
             game.SwitchTurn();
             game.CheckForMatch(new EmojiCard("😊"), new EmojiCard("😊"));// player one match
+            game.GameStatus = Game.GameStatusEnum.GameOver;
             game.CheckForWinner();
-            string msg = $"winner is {game._winnerenum} score playerone = {game.scoreone} score playertwo = {game.scoretwo}";
+            string msg = $"winner is {game.Winner} score playerone = {game.scoreone} score playertwo = {game.scoretwo}";
             TestContext.WriteLine(msg);
-            Assert.IsTrue(game._winnerenum.ToString() == Game.WinnerEnum.PlayerOne.ToString() && game.scoreone == 2 && game.scoretwo ==0);  
+            Assert.IsTrue(game.Winner.ToString() == Game.WinnerEnum.PlayerOne.ToString() && game.scoreone == 2 && game.scoretwo ==0);  
         }
     }
 
