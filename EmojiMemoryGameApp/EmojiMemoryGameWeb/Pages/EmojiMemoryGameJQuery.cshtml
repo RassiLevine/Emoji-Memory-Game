@@ -1,0 +1,313 @@
+﻿@page
+@model EmojiMemoryGameWeb.Pages.EmojiMemoryGameJQueryModel
+@{
+}
+
+<style>
+    .emojiBtn {
+        background-color: yellow;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+</style>
+<div class="row container">
+
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3 id="gamestat">Press Start</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-2">
+            <h4>Player One</h4>
+            <h5>Score</h5>
+            <div>
+                <h4 id="scoreone">0</h4>
+            </div>
+            <br />
+            <button id="startBtn" class="text-light" style="background-color:purple">Start Game</button>
+        </div>
+        <div class="col-12 col-md-8 col-lg-8">
+            <table class=" text-center table-responsive">
+                <tr>
+                    <td>
+                        <button id="btn1" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn2" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn3" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn4" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn5" class="emojiBtn"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btn6" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn7" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn8" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn9" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn10" class="emojiBtn"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btn11" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn12" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn13" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn14" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn15" class="emojiBtn"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btn16" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn17" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn18" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn19" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn20" class="emojiBtn"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-12 col-md-4 col-lg-2">
+            <h4>Player Two</h4>
+            <h5>Score</h5>
+            <div>
+                <h4 id="scoretwo">0</h4>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@section Scripts{
+
+    <script>
+        //vars
+        const emojis = ["😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉","😊", "😂", "😍", "😒", "😘", "😁", "😢", "😜", "😎", "😉"];
+        const buttonsBase = [...$(".emojiBtn")];
+        let buttons=[];
+        const playerone = "Player One";
+        const playertwo = "Player Two";
+        let currentTurn = playerone;
+        let cardone;
+        let cardtwo;
+        let numtimesclicked = 0;
+        let nonvisible = 0;
+        let gameover = false;
+        let winner;
+        let span;
+        let startBtnName;
+        //events
+        buttonsBase.forEach(b=>b.addEventListener("click", chooseCard)); // I did not switch this to jquery becuase I want to be able to remove the click event...
+        document.querySelector("#startBtn").addEventListener("click", startGame);
+
+        //code
+        function startGame(){
+
+            if(startBtnName.text() == "Start Game"){
+             resetGameBoard();
+            initializeGameCards();
+            startBtnName.text("End Game");
+            $("#gamestat").text(currentTurn);
+            }
+            else{
+                setEndGame();
+            }
+            cardone = null;
+            cardtwo = null;
+        }
+
+        $(document).ready(function(){
+        startBtnName = $("#startBtn");
+        });
+        function resetGameBoard(){
+              buttons = [...buttonsBase];
+                buttons.forEach(b=>{
+                    b.style.display ='inline-block';
+                    b.style = 'emojiBtn';
+                    b.removeEventListener("click", chooseCard);
+                    b.addEventListener("click", chooseCard);
+                    b.disabled = false;
+                });
+        $(".emoji-text").css("visibility", "hidden");
+        }
+        function setEndGame(){
+            document.querySelector("#startBtn").textContent = "Start Game";
+            resetGameBoard();
+            buttonsBase.forEach(b=>b.disabled = true);
+            buttons.forEach(b=>b.disabled = true);
+        }
+
+        function initializeGameCards(){
+            shuffleArray(emojis);
+            buttons.forEach((button, index) => {
+                if (emojis[index]) {
+                span = document.createElement('span');
+                span.classList.add('emoji-text');
+                span.textContent = emojis[index];
+                button.innerHTML="";
+                button.appendChild(span);
+                span.style.visibility = 'hidden';
+                }});
+            }
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+        }
+
+        function chooseCard(event){
+
+            numtimesclicked++;
+            const emoji = event.target;
+
+            span = emoji.querySelector('.emoji-text');
+            span.style.visibility = 'visible';
+
+            switch (numtimesclicked)
+                {
+                    case 1:
+                        cardone = emoji;
+                        emoji.disabled = true;
+                        break;
+                    case 2:
+                        cardtwo = emoji;
+                        emoji.disabled = true;
+                        break;
+                }
+
+                if(cardtwo!=null){
+                    checkForMatch(cardone, cardtwo);
+                    setTimeout(function(){
+                         switchTurn();
+                    }, 1000)
+
+                    checkForWinner();
+                }
+        }
+
+
+        function checkForMatch(emojicard1, emojicard2){
+            if (emojicard1.textContent == emojicard2.textContent)
+                {
+                    nonvisible = nonvisible + 2;
+
+                    if (currentTurn == playerone)
+                    {
+                        scoreone.innerHTML = (+scoreone.innerHTML + 1).toString();                }
+                    else if (currentTurn == playertwo)
+                    {
+                        scoretwo.innerHTML = (+scoretwo.innerHTML + 1).toString();
+                    }
+                      setTimeout(function(){
+
+                         emojicard1.disabled = false;
+                         emojicard2.disabled = false;
+                    }, 500)
+                    setTimeout(function(){
+                        emojicard1.style.display = 'none';
+                        emojicard2.style.display = 'none';
+                    }, 1000)
+                 requestAnimationFrame(function () {
+                displayMessage(" You got a match!");
+            });
+
+                }
+                else{
+                    emojicard1.disabled = false;
+                    emojicard2.disabled = false;
+                    setTimeout(function(){
+                       $(".emoji-text").css("visibility", "hidden");
+                    }, 1000);
+
+                   requestAnimationFrame(function () {
+                     displayMessage(" No Match!");
+            });
+                }
+                cardone = null;
+                cardtwo = null;
+                numtimesclicked = 0;
+
+        }
+
+
+         function displayMessage(message) {
+           let messagebox = $("#gamestat");
+           messagebox.text(messagebox.text() + message);
+            setTimeout(function () {
+                messagedisplay = messagebox;
+            }, 1000);
+        }
+
+
+           function checkForWinner(){
+               if(nonvisible == 20){
+                   gameover = true;
+               }
+               else if(scoreone.textContent ==8||scoretwo.textContent == 8){
+                   gameover = true;
+               }
+
+               if(gameover){
+                   if(scoreone.textContent>scoretwo.textContent){
+                       winner = playerone;
+                   }
+                   else if(scoretwo>scoreone){
+                       winner = plaayertwo;
+                   }
+                   else if(scoreone.textContent == scoretwo.textContent){
+                       winner = "Tie";
+                   }
+                   $("#gamestat").text("Winner is "+winner);
+                   setEndGame();
+               }
+
+           }
+
+        function switchTurn(){
+            currentTurn = currentTurn == playerone? playertwo:playerone;
+            $("#gamestat").text("");
+            $("#gamestat").text(currentTurn);
+        }
+    </script>
+}
