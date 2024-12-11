@@ -7,7 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="ts\EmojiMemoryGameTypescript.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\images\emojiMemoryGameMockup.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.7.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ts\EmojiMemoryGameTypescript.ts" />
   </ItemGroup>
 
 </Project>

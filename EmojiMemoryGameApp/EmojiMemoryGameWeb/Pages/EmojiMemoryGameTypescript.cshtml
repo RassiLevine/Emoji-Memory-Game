@@ -1,0 +1,108 @@
+﻿@page
+@model EmojiMemoryGameWeb.Pages.EmojiMemoryGameTypescriptModel
+@{
+}
+
+<div class="row container">
+
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3 id="gamestat">Press Start</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-2">
+            <h4>Player One</h4>
+            <h5>Score</h5>
+            <div>
+                <h4 id="scoreone">0</h4>
+            </div>
+            <br />
+            <button id="startBtn" class="text-light" style="background-color:purple">Start Game</button>
+        </div>
+        <div class="col-12 col-md-8 col-lg-8">
+            <table class=" text-center table-responsive">
+                <tr>
+                    <td>
+                        <button id="btn1" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn2" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn3" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn4" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn5" class="emojiBtn"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btn6" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn7" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn8" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn9" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn10" class="emojiBtn"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btn11" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn12" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn13" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn14" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn15" class="emojiBtn"></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btn16" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn17" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn18" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn19" class="emojiBtn"></button>
+                    </td>
+                    <td>
+                        <button id="btn20" class="emojiBtn"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-12 col-md-4 col-lg-2">
+            <h4>Player Two</h4>
+            <h5>Score</h5>
+            <div>
+                <h4 id="scoretwo">0</h4>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="~/js/EmojiMemoryGameTypescript.js" asp-append-version="true"></script>
