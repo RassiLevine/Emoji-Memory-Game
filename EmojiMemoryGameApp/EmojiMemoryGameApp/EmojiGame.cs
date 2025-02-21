@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.Design;
-using System.Diagnostics;
-
-namespace EmojiMemoryGameApp
+﻿namespace EmojiMemoryGameApp
 {
     public partial class EmojiGame : Form
     {
@@ -29,8 +26,6 @@ namespace EmojiMemoryGameApp
             txtMsg.Text = "Press Start";
         
         }
-
-        //😊😂😍😒😘😁😢😜😎😉
 
         private void CheckForWinner()
         {
@@ -162,7 +157,7 @@ namespace EmojiMemoryGameApp
             string x = btnStart.Text;
             return x;
         }
-        private void BtnStart_Click(object? sender, EventArgs e)
+        private void StartEnd(object? sender, EventArgs e)
         {
             if (btnStart.Text == "START")
             {
@@ -172,7 +167,7 @@ namespace EmojiMemoryGameApp
                 btnStart.Text = "End Game";
                 GetButtonText();
             }
-            else if(btnStart.Text == "End Game")
+            else if (btnStart.Text == "End Game")
             {
                 btnStart.Text = "START";
                 GetButtonText();
@@ -180,22 +175,20 @@ namespace EmojiMemoryGameApp
                 txtScore1.Text = "";
                 txtScore2.Text = "";
                 txtMsg.Text = "Press Start";
-                foreach(Button b in lstbuttons)
+                foreach (Button b in lstbuttons)
                 {
                     b.Visible = true;
                     b.Text = "";
                 }
 
             }
-  
         }
-
-        private void B_Click(object? sender, EventArgs e)
+        private void ButtonClicked(object? sender, EventArgs e)
         {
             if (gamestarted == true)
             {
-                
-                numtimesclicked = numtimesclicked +1;
+
+                numtimesclicked = numtimesclicked + 1;
                 Button btn = (Button)sender;
                 ChooseCard(btn);
                 if (cardtwo != null)
@@ -205,6 +198,16 @@ namespace EmojiMemoryGameApp
                 PlayerUp();
                 CheckForWinner();
             }
+        }
+        private void BtnStart_Click(object? sender, EventArgs e)
+        {
+            StartEnd(sender, e);
+        }
+       
+
+        private void B_Click(object? sender, EventArgs e)
+        {
+            ButtonClicked(sender, e);
         }
 
     }
