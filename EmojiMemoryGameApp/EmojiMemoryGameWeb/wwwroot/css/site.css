@@ -36,6 +36,8 @@ body {
     height: auto;
     width: auto;
     max-width: 100%;
+    
+   
 }
 @media (max-width: 576px) {
     .emojiBtn {
